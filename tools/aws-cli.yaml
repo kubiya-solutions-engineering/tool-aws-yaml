@@ -1,0 +1,19 @@
+tools:
+  - name: aws_cli
+    image: amazon/aws-cli
+    description: "Runs AWS CLI commands - recieves the command to run as an argument"
+    alias: aws
+    content: |
+      aws {{.command}}
+    args:
+      - name: command
+        description: "The AWS CLI command to run (example: s3 ls). Do not add `aws` at the front."
+        required: true
+    env:
+      - AWS_PROFILE
+    with_files:
+      - source: $HOME/.aws/credentials
+        destination: /root/.aws/credentials
+      - source: $HOME/.aws/config
+        destination: /root/.aws/config
+
